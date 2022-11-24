@@ -58,15 +58,11 @@ func UpddateUserController(c echo.Context) error {
 	return c.JSON(http.StatusOK, helper.PesanSuksesHelper("berhasil membuat user"))
 }
 
-// func DeleteUserContoller(c echo.Context) error {
-// 	id, err := strconv.Atoi(c.Param("id"))
-
-// 	if err != nil {
-// 		return c.JSON(http.StatusBadRequest, helper.PesanGagalHelper("erorr id"))
-// 		result, errdelete := repository.deleteUser(id, user)
-// 		if errdelete != nil {
-// 			return c.JSON(http.StatusBadRequest, helper.PesanGagalHelper("gagal update data"))
-// 		}
-// 	}
-// 	return c.JSON(http.StatusOK, helper.PesanSuksesHelper("berhasil menghapus user", result))
-// }
+func DeleteUserContoller(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	errdelete := repository.DeleteUser(id)
+	if errdelete != nil {
+		return c.JSON(http.StatusBadRequest, helper.PesanGagalHelper("gagal Hapus data"))
+	}
+	return c.JSON(http.StatusOK, helper.PesanSuksesHelper("berhasil menghapus user"))
+}

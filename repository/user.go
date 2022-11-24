@@ -51,7 +51,7 @@ func UpdateUserId(id int, user models.User) (any, error) {
 
 func DeleteUser(id int) error {
 	var user models.User
-	tx := config.DB.Where("id= ?", id).Delete(&user)
+	tx := config.DB.Delete(&user, id)
 
 	if tx.Error != nil {
 		return tx.Error
