@@ -49,6 +49,22 @@ func GetAllUserControllerId(c echo.Context) error {
 
 func UpddateUserController(c echo.Context) error {
 	//
+
+	data := models.User{}
+	c.Bind(&data)
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, helper.PesanGagalHelper("gagal baca id"))
+	}
+	result, errupdate := repository.UpdateUserId(id, data)
+	if errupdate != nil {
+		return c.JSON(http.StatusBadRequest, helper.PesanGagalHelper("gagal hapus data"))
+	}
+	return c.JSON(http.StatusOK, helper.PesanDataBerhasilHelper("berhasil MENGHAPUS user", result))
+}
+
+func DeleteUserContoller(c echo.Context) error {
+	//
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	errdelete := repository.DeleteUser(id)
@@ -56,13 +72,4 @@ func UpddateUserController(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, helper.PesanGagalHelper("gagal hapus data"))
 	}
 	return c.JSON(http.StatusOK, helper.PesanSuksesHelper("berhasil membuat user"))
-}
-
-func DeleteUserContoller(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
-	errdelete := repository.DeleteUser(id)
-	if errdelete != nil {
-		return c.JSON(http.StatusBadRequest, helper.PesanGagalHelper("gagal Hapus data"))
-	}
-	return c.JSON(http.StatusOK, helper.PesanSuksesHelper("berhasil menghapus user"))
 }
